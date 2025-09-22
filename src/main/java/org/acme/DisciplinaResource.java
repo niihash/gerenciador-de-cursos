@@ -52,6 +52,26 @@ public class DisciplinaResource {
     }
 
     @GET
+    @Operation(
+            summary = "Retorna as informações de uma disciplina",
+            description = "Retorna as informações de uma disciplina no formato JSON"
+    )
+    @APIResponse(
+            responseCode = "200",
+            description = "OK",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Disciplina.class, type = SchemaType.ARRAY)
+            )
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Not Found",
+            content = @Content(
+                    mediaType = "text/plain",
+                    schema = @Schema(implementation = String.class)
+            )
+    )
     @Path("{id}")
     public Response getById(
             @Parameter(description = "Id da disciplina a ser pesquisada", required = true)
@@ -65,6 +85,26 @@ public class DisciplinaResource {
     }
 
     @GET
+    @Operation(
+            summary = "Retorna as informações de uma pesquisa",
+            description = "Retorna as informações de uma pesquisa por nome ou descrição no formato JSON"
+    )
+    @APIResponse(
+            responseCode = "200",
+            description = "OK",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = SearchDisciplinaResponse.class, type = SchemaType.ARRAY)
+            )
+    )
+    @APIResponse(
+            responseCode = "400",
+            description = "Bad Request",
+            content = @Content(
+                    mediaType = "text/plain",
+                    schema = @Schema(implementation = String.class)
+            )
+    )
     @Path("/search")
     public Response search(
             @Parameter(description = "Query de busca por nome ou descricao")
@@ -107,6 +147,10 @@ public class DisciplinaResource {
     }
 
     @POST
+    @Operation(
+            summary = "Cria uma nova disciplina",
+            description = "Cria uma nova disciplina com as informações fornecidas no formato JSON"
+    )
     @RequestBody(
             required = true,
             content = @Content(
@@ -138,6 +182,22 @@ public class DisciplinaResource {
     }
 
     @DELETE
+    @Operation(
+            summary = "Exclui uma disciplina",
+            description = "Exclui uma disciplina pelo id fornecido"
+    )
+    @APIResponse(
+            responseCode = "204",
+            description = "Deletada"
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Not Found",
+            content = @Content(
+                    mediaType = "text/plain",
+                    schema = @Schema(implementation = String.class)
+            )
+    )
     @Transactional
     @Path("{id}")
     public Response delete(
@@ -152,6 +212,41 @@ public class DisciplinaResource {
     }
 
     @PUT
+    @Operation(
+            summary = "Atualiza uma disciplina",
+            description = "Atualiza uma disciplina pelo id fornecido e com as informações no formato JSON"
+    )
+    @RequestBody(
+            required = true,
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Disciplina.class)
+            )
+    )
+    @APIResponse(
+            responseCode = "200",
+            description = "OK",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Disciplina.class, type = SchemaType.ARRAY)
+            )
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Not Found",
+            content = @Content(
+                    mediaType = "text/plain",
+                    schema = @Schema(implementation = String.class)
+            )
+    )
+    @APIResponse(
+            responseCode = "400",
+            description = "Bad Request",
+            content = @Content(
+                    mediaType = "text/plain",
+                    schema = @Schema(implementation = String.class)
+            )
+    )
     @Transactional
     @Path("{id}")
     public Response update(

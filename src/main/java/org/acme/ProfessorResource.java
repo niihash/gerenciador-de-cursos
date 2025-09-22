@@ -52,6 +52,26 @@ public class ProfessorResource {
     }
 
     @GET
+    @Operation(
+            summary = "Retorna as informações de um professor",
+            description = "Retorna as informações de um professor no formato JSON"
+    )
+    @APIResponse(
+            responseCode = "200",
+            description = "OK",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Professor.class, type = SchemaType.ARRAY)
+            )
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Not Found",
+            content = @Content(
+                    mediaType = "text/plain",
+                    schema = @Schema(implementation = String.class)
+            )
+    )
     @Path("{id}")
     public Response getById(
             @Parameter(description = "Id do professor a ser pesquisado", required = true)
@@ -65,6 +85,26 @@ public class ProfessorResource {
     }
 
     @GET
+    @Operation(
+            summary = "Retorna as informações de uma pesquisa",
+            description = "Retorna as informações de uma pesquisa por nome ou email no formato JSON"
+    )
+    @APIResponse(
+            responseCode = "200",
+            description = "OK",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = SearchProfessorResponse.class, type = SchemaType.ARRAY)
+            )
+    )
+    @APIResponse(
+            responseCode = "400",
+            description = "Bad Request",
+            content = @Content(
+                    mediaType = "text/plain",
+                    schema = @Schema(implementation = String.class)
+            )
+    )
     @Path("/search")
     public Response search(
             @Parameter(description = "Query de busca por nome ou email")
@@ -107,6 +147,10 @@ public class ProfessorResource {
     }
 
     @POST
+    @Operation(
+            summary = "Cria um novo professor",
+            description = "Cria um novo professor com as informações fornecidas no formato JSON"
+    )
     @RequestBody(
             required = true,
             content = @Content(
@@ -137,6 +181,22 @@ public class ProfessorResource {
     }
 
     @DELETE
+    @Operation(
+            summary = "Exclui um professor",
+            description = "Exclui um professor pelo id fornecido"
+    )
+    @APIResponse(
+            responseCode = "204",
+            description = "Deletado"
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Not Found",
+            content = @Content(
+                    mediaType = "text/plain",
+                    schema = @Schema(implementation = String.class)
+            )
+    )
     @Transactional
     @Path("{id}")
     public Response delete(
@@ -151,6 +211,41 @@ public class ProfessorResource {
     }
 
     @PUT
+    @Operation(
+            summary = "Atualiza um professor",
+            description = "Atualiza um professor pelo id fornecido e com as informações no formato JSON"
+    )
+    @RequestBody(
+            required = true,
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Professor.class)
+            )
+    )
+    @APIResponse(
+            responseCode = "200",
+            description = "OK",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Professor.class, type = SchemaType.ARRAY)
+            )
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Not Found",
+            content = @Content(
+                    mediaType = "text/plain",
+                    schema = @Schema(implementation = String.class)
+            )
+    )
+    @APIResponse(
+            responseCode = "400",
+            description = "Bad Request",
+            content = @Content(
+                    mediaType = "text/plain",
+                    schema = @Schema(implementation = String.class)
+            )
+    )
     @Transactional
     @Path("{id}")
     public Response update(

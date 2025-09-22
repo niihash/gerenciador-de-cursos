@@ -2,15 +2,12 @@ package org.acme;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.panache.common.Sort;
-import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import jakarta.validation.Validator;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
-import jdk.javadoc.doclet.Reporter;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -55,6 +52,26 @@ public class AlunoResource {
     }
 
     @GET
+    @Operation(
+            summary = "Retorna as informações de um aluno",
+            description = "Retorna as informações de um aluno no formato JSON"
+    )
+    @APIResponse(
+            responseCode = "200",
+            description = "OK",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Aluno.class, type = SchemaType.ARRAY)
+            )
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Not Found",
+            content = @Content(
+                    mediaType = "text/plain",
+                    schema = @Schema(implementation = String.class)
+            )
+    )
     @Path("{id}")
     public Response getById(
             @Parameter(description = "Id do aluno a ser pesquisado", required = true)
@@ -68,6 +85,26 @@ public class AlunoResource {
     }
 
     @GET
+    @Operation(
+            summary = "Retorna as informações de uma pesquisa",
+            description = "Retorna as informações de uma pesquisa por nome ou email no formato JSON"
+    )
+    @APIResponse(
+            responseCode = "200",
+            description = "OK",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = SearchAlunoResponse.class, type = SchemaType.ARRAY)
+            )
+    )
+    @APIResponse(
+            responseCode = "400",
+            description = "Bad Request",
+            content = @Content(
+                    mediaType = "text/plain",
+                    schema = @Schema(implementation = String.class)
+            )
+    )
     @Path("/search")
     public Response search(
             @Parameter(description = "Query de busca por nome ou email")
@@ -110,6 +147,10 @@ public class AlunoResource {
     }
 
     @POST
+    @Operation(
+            summary = "Cria um novo aluno",
+            description = "Cria uma novo aluno com as informações fornecidas no formato JSON"
+    )
     @RequestBody(
             required = true,
             content = @Content(
@@ -140,6 +181,22 @@ public class AlunoResource {
     }
 
     @DELETE
+    @Operation(
+            summary = "Exclui um aluno",
+            description = "Exclui um aluno pelo id fornecido"
+    )
+    @APIResponse(
+            responseCode = "204",
+            description = "Deletado"
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Not Found",
+            content = @Content(
+                    mediaType = "text/plain",
+                    schema = @Schema(implementation = String.class)
+            )
+    )
     @Transactional
     @Path("{id}")
     public Response delete(
@@ -154,6 +211,41 @@ public class AlunoResource {
     }
 
     @PUT
+    @Operation(
+            summary = "Atualiza um aluno",
+            description = "Atualiza um aluno pelo id fornecido e com as informações no formato JSON"
+    )
+    @RequestBody(
+            required = true,
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Aluno.class)
+            )
+    )
+    @APIResponse(
+            responseCode = "200",
+            description = "OK",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Aluno.class, type = SchemaType.ARRAY)
+            )
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Not Found",
+            content = @Content(
+                    mediaType = "text/plain",
+                    schema = @Schema(implementation = String.class)
+            )
+    )
+    @APIResponse(
+            responseCode = "400",
+            description = "Bad Request",
+            content = @Content(
+                    mediaType = "text/plain",
+                    schema = @Schema(implementation = String.class)
+            )
+    )
     @Transactional
     @Path("{id}")
     public Response update(
@@ -175,6 +267,41 @@ public class AlunoResource {
     //Matricula a partir de aqui
 
     @POST
+    @Operation(
+            summary = "Matricula um aluno no curso",
+            description = "Matricula um aluno no curso com os ids fornecidos"
+    )
+    @RequestBody(
+            required = false
+//            content = @Content(
+//                    mediaType = "application/json",
+//                    schema = @Schema(implementation = Aluno.class)
+//            )
+    )
+    @APIResponse(
+            responseCode = "200",
+            description = "OK",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Aluno.class)
+            )
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Not Found",
+            content = @Content(
+                    mediaType = "text/plain",
+                    schema = @Schema(implementation = String.class)
+            )
+    )
+    @APIResponse(
+            responseCode = "409",
+            description = "Conflict",
+            content = @Content(
+                    mediaType = "text/plain",
+                    schema = @Schema(implementation = String.class)
+            )
+    )
     @Path("{id}/cursos/{cursoId}")
     @Transactional
     public Response matricular(
@@ -200,6 +327,26 @@ public class AlunoResource {
     }
 
     @GET
+    @Operation(
+            summary = "Retorna um aluno e todos os cursos em que está matriculado",
+            description = "Retorna um aluno e todos os cursos em que está matriculado no formato JSON"
+    )
+    @APIResponse(
+            responseCode = "200",
+            description = "OK",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Aluno.class, type = SchemaType.ARRAY)
+            )
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Not Found",
+            content = @Content(
+                    mediaType = "text/plain",
+                    schema = @Schema(implementation = String.class)
+            )
+    )
     @Path("{id}/cursos")
     public Response listarCursos(
             @PathParam("id") long alunoId
@@ -213,6 +360,29 @@ public class AlunoResource {
     }
 
     @DELETE
+    @Operation(
+            summary = "Deleta a matricula de um aluno no curso",
+            description = "Deleta a matricula de um aluno no curso com os ids fornecidos"
+    )
+    @RequestBody(
+            required = false
+//            content = @Content(
+//                    mediaType = "application/json",
+//                    schema = @Schema(implementation = Aluno.class)
+//            )
+    )
+    @APIResponse(
+            responseCode = "204",
+            description = "Deletado"
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Not Found",
+            content = @Content(
+                    mediaType = "text/plain",
+                    schema = @Schema(implementation = String.class)
+            )
+    )
     @Path("{id}/cursos/{cursoId}")
     @Transactional
     public Response desmatricular(
@@ -230,7 +400,7 @@ public class AlunoResource {
         }
 
         if (!aluno.cursos.contains(curso)) {
-            return Response.status(400).entity("Aluno não está matriculado neste curso").build();
+            return Response.status(404).entity("Aluno não está matriculado neste curso").build();
         }
 
         aluno.cursos.remove(curso);

@@ -1,78 +1,75 @@
-# code-with-quarkus
+# API de Gerenciamento de Curso
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+API desenvolvida para a disciplina de Web Services utilizando Quarkus, fornecendo funcionalidades simples para gerenciamento de alunos, cursos, disciplinas e professores em um ambiente acadêmico.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## Tecnologias Utilizadas
 
-## Running the application in dev mode
+- **Quarkus** - Framework Java
 
-You can run your application in dev mode that enables live coding using:
+## 📋 Funcionalidades
 
-```shell script
-./mvnw quarkus:dev
-```
+### Recursos Disponíveis
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+- **👨‍🎓 Alunos**: Cadastro, consulta, atualização e exclusão de alunos
+- **📚 Cursos**: Gerenciamento completo de cursos
+- **📖 Disciplinas**: Administração de disciplinas
+- **👨‍🏫 Professores**: Controle de dados dos professores
+- **🔗 Matrículas**: Sistema de matrícula de alunos em cursos
 
-## Packaging and running the application
+## 🔗 Endpoints Principais
 
-The application can be packaged using:
+### Alunos (`/alunos`)
+- `GET /alunos` - Lista todos os alunos
+- `POST /alunos` - Cria um novo aluno
+- `GET /alunos/{id}` - Retorna informações de um aluno específico
+- `PUT /alunos/{id}` - Atualiza dados de um aluno
+- `DELETE /alunos/{id}` - Exclui um aluno
+- `GET /alunos/search` - Pesquisa alunos com filtros
+- `GET /alunos/{id}/cursos` - Lista cursos de um aluno
+- `POST /alunos/{id}/cursos/{cursoId}` - Matricula aluno em curso
+- `DELETE /alunos/{id}/cursos/{cursoId}` - Remove matrícula
 
-```shell script
-./mvnw package
-```
+### Cursos (`/cursos`)
+- `GET /cursos` - Lista todos os cursos
+- `POST /cursos` - Cria um novo curso
+- `GET /cursos/{id}` - Retorna informações de um curso específico
+- `PUT /cursos/{id}` - Atualiza dados de um curso
+- `DELETE /cursos/{id}` - Exclui um curso
+- `GET /cursos/search` - Pesquisa cursos com filtros
+- `GET /cursos/{id}/alunos` - Lista alunos de um curso
+- `POST /cursos/{id}/alunos/{alunoId}` - Matricula aluno no curso
+- `DELETE /cursos/{id}/alunos/{alunoId}` - Remove matrícula
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+### Disciplinas (`/disciplinas`)
+- `GET /disciplinas` - Lista todas as disciplinas
+- `POST /disciplinas` - Cria uma nova disciplina
+- `GET /disciplinas/{id}` - Retorna informações de uma disciplina específica
+- `PUT /disciplinas/{id}` - Atualiza dados de uma disciplina
+- `DELETE /disciplinas/{id}` - Exclui uma disciplina
+- `GET /disciplinas/search` - Pesquisa disciplinas com filtros
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+### Professores (`/professores`)
+- `GET /professores` - Lista todos os professores
+- `POST /professores` - Cria um novo professor
+- `GET /professores/{id}` - Retorna informações de um professor específico
+- `PUT /professores/{id}` - Atualiza dados de um professor
+- `DELETE /professores/{id}` - Exclui um professor
+- `GET /professores/search` - Pesquisa professores com filtros
 
-If you want to build an _über-jar_, execute the following command:
+## 📚 Documentação da API
 
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
-```
+Após executar a aplicação, acesse:
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+- **Swagger UI**: https://gerenciador-de-cursos.onrender.com/q/swagger-ui/
 
-## Creating a native executable
+## 🔧 Desenvolvimento
 
-You can create a native executable using:
+### Principais Entidades
+- **Aluno**: Representa estudantes matriculados
+- **Curso**: Representa os cursos oferecidos
+- **Disciplina**: Representa as disciplinas acadêmicas
+- **Professor**: Representa os docentes
 
-```shell script
-./mvnw package -Dnative
-```
+## 📄 Licença
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/code-with-quarkus-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
-
-## Related Guides
-
-- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-- JDBC Driver - H2 ([guide](https://quarkus.io/guides/datasource)): Connect to the H2 database via JDBC
-- REST Jackson ([guide](https://quarkus.io/guides/rest#json-serialisation)): Jackson serialization support for Quarkus REST. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it
-- Hibernate ORM with Panache ([guide](https://quarkus.io/guides/hibernate-orm-panache)): Simplify your persistence code for Hibernate ORM via the active record or the repository pattern
-
-## Provided Code
-
-### Hibernate ORM
-
-Create your first JPA entity
-
-[Related guide section...](https://quarkus.io/guides/hibernate-orm)
-
-[Related Hibernate with Panache section...](https://quarkus.io/guides/hibernate-orm-panache)
-
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+Este projeto não possui licença.
